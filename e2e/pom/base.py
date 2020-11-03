@@ -1,0 +1,48 @@
+"""Base functionality for `e2e.pom`."""
+
+import abc
+from typing import List
+from typing import Optional
+
+from selenium.webdriver.remote.webdriver import WebDriver
+
+from e2e import common
+
+from . import dom
+from . import exceptions
+from . import locators
+from . import types
+
+
+class Parentable(common.modelling.NamedParentable, types.FindsElements):
+    """Base class implementing auto-stitching parents in a POM class model."""
+
+    parent: Optional["Parentable"] = None
+    _driver: Optional[WebDriver] = None
+
+    def __init__(
+        self,
+        name: str,
+        *,
+        parent: Optional["Parentable"] = None,
+        driver: Optional[WebDriver] = None,
+    ):
+        super().__init__(name, parent=parent)
+        self._driver = driver
+
+    @property
+    def driver(self) -> WebDriver:
+        """Returns the driver attached to this element or its parent chain."""
+        if self._driver:
+            return self._driver
+        if self.parent:
+            return self.parent.driver
+        raise exceptions.PomError(
+            "Element has neither a parent nor assigned driver: {}".format(self)
+        )
+
+    @abc.abstractmethod
+    def _find_within(self, locator: locators.Locator) -> List[WebElement]:
+        """Docs"""
+        print("TODO")
+        return []
