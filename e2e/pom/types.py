@@ -1,9 +1,8 @@
 from typing import TYPE_CHECKING
 from typing import List
 
-from typing_extensions import Protocol
-
 from selenium.webdriver.remote.webdriver import WebElement
+from typing_extensions import Protocol
 
 if TYPE_CHECKING:
     from . import locators

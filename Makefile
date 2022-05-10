@@ -22,7 +22,7 @@ lint: venv
 
 .PHONY: format
 format: venv
-	. ./venv/bin/activate && isort -rc $(SRC) $(TEST_SRC)
+	. ./venv/bin/activate && isort $(SRC) $(TEST_SRC)
 	. ./venv/bin/activate && black $(SRC) $(TEST_SRC)
 
 #=#=#=#=#=#=#=#=#=#=#=#

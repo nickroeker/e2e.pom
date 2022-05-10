@@ -8,13 +8,11 @@ from selenium.webdriver.remote.webdriver import WebDriver
 
 from e2e import common
 
-from . import dom
 from . import exceptions
 from . import locators
-from . import types
 
 
-class Parentable(common.modelling.NamedParentable, types.FindsElements):
+class Parentable(common.modelling.NamedParentable):  # TODO types.FindsElements
     """Base class implementing auto-stitching parents in a POM class model."""
 
     parent: Optional["Parentable"] = None
@@ -42,7 +40,9 @@ class Parentable(common.modelling.NamedParentable, types.FindsElements):
         )
 
     @abc.abstractmethod
-    def _find_within(self, locator: locators.Locator) -> List[WebElement]:
+    def _find_within(
+        self, locator: locators.Locator
+    ) -> List:  # TODO: List[WebElement] was here before
         """Docs"""
         print("TODO")
         return []
