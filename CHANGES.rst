@@ -1,7 +1,7 @@
 Changelog for e2e.pom
 =====================
 
-0.1.0 (unreleased)
+0.1.0 (2022-05-09)
 ------------------
 
 - Exported modelling core to e2e.common, imported and used here
