@@ -1,7 +1,7 @@
 Changelog for e2e.pom
 =====================
 
-0.1.1 (unreleased)
+0.1.1 (2022-06-26)
 ------------------
 
 - Packaing and requirements fixes
