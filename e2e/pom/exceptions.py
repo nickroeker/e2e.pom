@@ -11,3 +11,7 @@ class ElementNotUniqueError(PomError):
 
 class ElementNotFoundError(PomError):
     """Raised when no DOM matches are found for a "unique" model."""
+
+
+class TimeoutError(PomError):
+    """Raised when an element action times out due to some waited-upon condition."""

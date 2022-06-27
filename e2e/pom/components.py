@@ -7,6 +7,8 @@ from typing import List
 from typing import Optional
 from typing import TypeVar
 
+from waiter import wait
+
 from . import base
 from . import dom
 from . import exceptions
@@ -27,6 +29,11 @@ class Findable(base.Parentable):
     def by_css(self: T, css_selector: str) -> T:
         """Sets the scheme to find this element to the given CSS Selector."""
         self.locator = locators.by_css(css_selector)
+        return self
+
+    def by_xpath(self: T, xpath: str) -> T:
+        """Sets the scheme to find this element to the given XPath."""
+        self.locator = locators.by_xpath(xpath)
         return self
 
     # # TODO
@@ -132,11 +139,15 @@ class Container(Findable):
             raise exceptions.ElementNotUniqueError
         return found_refs[0]
 
-    def is_visible(self) -> bool:
+    def is_visible(self, do_not_log: bool = False) -> bool:
         """Returns whether or not this element is deeply visible."""
         # TODO: deeper visibility check (iframe)
-        LOGGER.info("Checking visibility of %s", self)
-        return self.find().is_visible()
+        if not do_not_log:
+            LOGGER.info("Checking visibility of %s", self)
+        try:
+            return self.find().is_visible()
+        except exceptions.ElementNotFoundError:
+            return False
 
     def is_in_dom(self) -> bool:
         """Returns whether or not this element can be found right now."""
@@ -162,6 +173,26 @@ class Container(Findable):
         """Get the inner text of this element."""
         LOGGER.info("Fetching text from %s", self)
         return self.find().get_text()
+
+    def wait_for_visible(self, timeout_sec: float = 5.0) -> None:
+        LOGGER.info("Waiting for visibility of %s", self)
+        for _ in wait(0.1, timeout_sec):
+            if self.is_visible(do_not_log=True):
+                break
+        else:
+            raise exceptions.TimeoutError(
+                f"Timed out after {timeout_sec}s waiting for visibility of {self}"
+            )
+
+    def wait_for_invisible(self, timeout_sec: float = 5.0) -> None:
+        LOGGER.info("Waiting for invisibility of %s", self)
+        for _ in wait(0.1, timeout_sec):
+            if not self.is_visible(do_not_log=True):
+                break
+        else:
+            raise exceptions.TimeoutError(
+                f"Timed out after {timeout_sec}s waiting for invisibility of {self}"
+            )
 
 
 class IFrame(Container):
@@ -261,6 +292,6 @@ class Element(Container):
             keys: The string and/or special keys to send to the element
             do_not_log: If set to True, disables logging (e.g. for passwords)"""
         if not do_not_log:
-            LOGGER.info('Setting text of %s: %s""', self, txt)
+            LOGGER.info('Setting text of %s: "%s"', self, txt)
         self.find().clear()
         self.find().send_keys(txt)
