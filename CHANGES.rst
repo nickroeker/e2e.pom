@@ -4,7 +4,9 @@ Changelog for e2e.pom
 0.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Packaing and requirements fixes
+- Added some left-behind critical missing functions!
+- Fixed typos on exception names
 
 
 0.1.0 (2022-05-09)
