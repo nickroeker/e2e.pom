@@ -4,13 +4,13 @@ Changelog for e2e.pom
 0.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Type-hint fixes at the module-level, and a couple method signature fixes
 
 
 0.1.1 (2022-06-26)
 ------------------
 
-- Packaing and requirements fixes
+- Packaging and requirements fixes
 - Added some left-behind critical missing functions!
 - Fixed typos on exception names
 

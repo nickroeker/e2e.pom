@@ -1,7 +1,10 @@
-from . import components
-from . import exceptions
+from . import components as components
+from . import exceptions as exceptions
 
-from .page import Page
-from .components import Element, ElementCollection, Container, IFrame
+from .page import Page as Page
+from .components import Element as Element
+from .components import ElementCollection as ElementCollection
+from .components import Container as Container
+from .components import IFrame as IFrame
 
-from . import types
+from . import types as types

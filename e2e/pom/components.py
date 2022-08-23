@@ -6,6 +6,7 @@ from typing import Any
 from typing import List
 from typing import Optional
 from typing import TypeVar
+from typing import Union
 
 from waiter import wait
 
@@ -164,12 +165,12 @@ class Container(Findable):
     def is_enabled(self) -> bool:
         return self.find().is_enabled()
 
-    def get_attribute(self, attr: str) -> None:
+    def get_attribute(self, attr: str) -> Union[str, bool, None]:
         """Get an attribute from the DOM object found by this model."""
         LOGGER.info('Fetching attribute "%s" from %s', attr, self)
         return self.find().get_attribute(attr)
 
-    def get_text(self) -> None:
+    def get_text(self) -> str:
         """Get the inner text of this element."""
         LOGGER.info("Fetching text from %s", self)
         return self.find().get_text()
