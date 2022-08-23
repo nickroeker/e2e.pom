@@ -1,7 +1,7 @@
 Changelog for e2e.pom
 =====================
 
-0.1.2 (unreleased)
+0.1.2 (2022-08-22)
 ------------------
 
 - Type-hint fixes at the module-level, and a couple method signature fixes
