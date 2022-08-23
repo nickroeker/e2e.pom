@@ -5,6 +5,7 @@ Changelog for e2e.pom
 ------------------
 
 - Type-hint fixes at the module-level, and a couple method signature fixes
+- New way to wait for page transitions: `pom.Page.expect_transition`
 
 
 0.1.1 (2022-06-26)
