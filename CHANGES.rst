@@ -4,7 +4,7 @@ Changelog for e2e.pom
 0.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix: Missing import
 
 
 0.1.2 (2022-08-22)

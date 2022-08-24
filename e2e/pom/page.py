@@ -3,6 +3,7 @@
 from typing import List
 from typing import Optional
 import contextlib
+import logging
 
 from selenium.webdriver.remote.webdriver import WebDriver
 from waiter import wait
