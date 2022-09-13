@@ -67,7 +67,11 @@ class Findable(base.Parentable):
         if self.parent:
             # TODO does this return multiple?
             # TODO reveal_type(self.parent)
-            return self.parent.find_within(self.locator)
+            found_refs = self.parent.find_within(self.locator)
+            for ref in found_refs:
+                ref.name = "Reference of {}".format(self)
+                ref.parent = self
+            return found_refs
         # TODO does this logic belong here?
         children = self.locator.locate(self.driver)
         return [dom.ElementReference(c, self) for c in children]
@@ -129,6 +133,9 @@ class Container(Findable):
             )
         if self.parent:
             found_refs = self.parent.find_within(self.locator)
+            for ref in found_refs:
+                ref.name = "Reference of {}".format(self)
+                ref.parent = self
         else:
             found_refs = [
                 dom.ElementReference(we, self)

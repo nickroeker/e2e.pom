@@ -11,6 +11,8 @@ from selenium.webdriver.remote.webdriver import WebElement
 
 from e2e.common import util
 
+from e2e.pom.base import Parentable
+
 from . import locators
 
 LOGGER = logging.getLogger(__name__)
@@ -21,7 +23,7 @@ if TYPE_CHECKING:
     from .components import Findable
 
 
-class ElementReference:
+class ElementReference(Parentable):
     """Representation of a specific element in the DOM.
 
     An `ElementReference` could be considered the low-level interface to
@@ -33,6 +35,7 @@ class ElementReference:
     """
 
     def __init__(self, web_element: WebElement, origin: Optional["Findable"] = None):
+        super().__init__("Reference of {}".format(origin) if origin else "UNKNOWN", parent=origin)
         self._web_element = web_element
         self._locator = origin
 
@@ -80,6 +83,12 @@ class ElementReference:
 
     def send_keys(self, keys: str) -> None:
         self._web_element.send_keys(keys)
+
+    # "Temporary" workarounds
+    # @property
+    # def parent_chain(self) -> List["NamedParentable"]:
+    #     """Returns a list of parents in order of increasing distance."""
+    #     return [self.parent] + self.parent.parent_chain if self.parent else []
 
     def __repr__(self) -> str:
         return "{}({})".format(util.fqualname_of(self), self._web_element.id)
