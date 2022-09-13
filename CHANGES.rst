@@ -1,7 +1,7 @@
 Changelog for e2e.pom
 =====================
 
-0.1.4 (unreleased)
+0.1.4 (2022-09-12)
 ------------------
 
 - [Issue 2] Fix ElementReference naming and parent chain for logging
