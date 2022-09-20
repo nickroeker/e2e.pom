@@ -1,7 +1,7 @@
 Changelog for e2e.pom
 =====================
 
-0.1.5 (unreleased)
+0.1.5 (2022-09-20)
 ------------------
 
 - Better error reporting for issues while finding
