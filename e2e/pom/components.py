@@ -142,9 +142,11 @@ class Container(Findable):
                 for we in self.locator.locate(self.driver)
             ]
         if not found_refs:
-            raise exceptions.ElementNotFoundError
+            raise exceptions.ElementNotFoundError(f"Could not locate {self}")
         if len(found_refs) > 1:
-            raise exceptions.ElementNotUniqueError
+            raise exceptions.ElementNotUniqueError(
+                f"Found {len(found_refs)} elements instead of 1 for {self}"
+            )
         return found_refs[0]
 
     def is_visible(self, do_not_log: bool = False) -> bool:
@@ -157,9 +159,10 @@ class Container(Findable):
         except exceptions.ElementNotFoundError:
             return False
 
-    def is_in_dom(self) -> bool:
+    def is_in_dom(self, do_not_log: bool = False) -> bool:
         """Returns whether or not this element can be found right now."""
-        LOGGER.info("Checking presence of %s", self)
+        if not do_not_log:
+            LOGGER.info("Checking presence of %s", self)
         try:
             self.find()
         except exceptions.ElementNotFoundError:
@@ -181,6 +184,26 @@ class Container(Findable):
         """Get the inner text of this element."""
         LOGGER.info("Fetching text from %s", self)
         return self.find().get_text()
+
+    def wait_for_in_dom(self, timeout_sec: float = 5.0) -> None:
+        LOGGER.info("Waiting for DOM presence of %s", self)
+        for _ in wait(0.1, timeout_sec):
+            if self.is_in_dom(do_not_log=True):
+                break
+        else:
+            raise exceptions.TimeoutError(
+                f"Timed out after {timeout_sec}s waiting for DOM presence of {self}"
+            )
+
+    def wait_for_not_in_dom(self, timeout_sec: float = 5.0) -> None:
+        LOGGER.info("Waiting for no DOM presence of %s", self)
+        for _ in wait(0.1, timeout_sec):
+            if not self.is_in_dom(do_not_log=True):
+                break
+        else:
+            raise exceptions.TimeoutError(
+                f"Timed out after {timeout_sec}s waiting for no DOM presence of {self}"
+            )
 
     def wait_for_visible(self, timeout_sec: float = 5.0) -> None:
         LOGGER.info("Waiting for visibility of %s", self)

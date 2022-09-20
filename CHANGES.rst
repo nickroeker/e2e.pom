@@ -4,7 +4,8 @@ Changelog for e2e.pom
 0.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Better error reporting for issues while finding
+- Added DOM presence wait methods
 
 
 0.1.4 (2022-09-12)
