@@ -262,7 +262,7 @@ class ElementCollection(Findable):
         self_refs = self._find_all()
         children = []
         for ref in self_refs:
-            children.extend(locator.locate(ref))
+            children.extend(locator.locate(ref._web_element))
             # child_refs.extend(ref.find_within(locator))
         return [dom.ElementReference(c, self) for c in children]
 

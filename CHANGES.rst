@@ -4,12 +4,6 @@ Changelog for e2e.pom
 0.1.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
-
-0.1.6 (2022-09-20)
-------------------
-
 - Allow ElementCollection to be a direct parent
 
 
