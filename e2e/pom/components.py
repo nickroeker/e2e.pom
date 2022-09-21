@@ -258,13 +258,13 @@ class IFrame(Container):
 # TODO: Findable[dom.T]
 class ElementCollection(Findable):
 
-    # TODO
     def find_within(self, locator: locators.Locator) -> List[dom.ElementReference]:
-        # found_refs = locator.locate(ctx)
         self_refs = self._find_all()
-        child_refs: List[dom.ElementReference] = []
+        children = []
         for ref in self_refs:
-            child_refs.extend(ref.find_within(locator))
+            children.extend(locator.locate(ref))
+            # child_refs.extend(ref.find_within(locator))
+        return [dom.ElementReference(c, self) for c in children]
 
     # TODO
     def find(self) -> List[dom.ElementReference]:
