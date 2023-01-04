@@ -1,6 +1,5 @@
 """Base functionality for `e2e.pom`."""
 
-import abc
 from typing import List
 from typing import Optional
 
@@ -38,11 +37,3 @@ class Parentable(common.modelling.NamedParentable):  # TODO types.FindsElements
         raise exceptions.PomError(
             "Element has neither a parent nor assigned driver: {}".format(self)
         )
-
-    @abc.abstractmethod
-    def _find_within(
-        self, locator: locators.Locator
-    ) -> List:  # TODO: List[WebElement] was here before
-        """Docs"""
-        print("TODO")
-        return []

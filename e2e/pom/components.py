@@ -80,16 +80,6 @@ class Findable(base.Parentable):
     def find(self) -> Any:
         pass
 
-    def _find_within(self, locator: locators.Locator) -> List[dom.ElementReference]:
-        # TODO: this is singular or list, not always list
-        self_refs: List[dom.ElementReference] = self.find()
-        children = itertools.chain.from_iterable(
-            locator.locate(r.proxy) for r in self_refs
-        )
-        # TODO: This is an error: self if wrong, maybe this should just return
-        # raw WebElements that are wrapped later.
-        return [dom.ElementReference(c, self) for c in children]
-
 
 class Container(Findable):
     """A non-interactable container for other POM constructs.

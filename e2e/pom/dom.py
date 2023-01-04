@@ -84,12 +84,6 @@ class ElementReference(Parentable):
     def send_keys(self, keys: str) -> None:
         self._web_element.send_keys(keys)
 
-    # "Temporary" workarounds
-    # @property
-    # def parent_chain(self) -> List["NamedParentable"]:
-    #     """Returns a list of parents in order of increasing distance."""
-    #     return [self.parent] + self.parent.parent_chain if self.parent else []
-
     def __repr__(self) -> str:
         return "{}({})".format(util.fqualname_of(self), self._web_element.id)
 

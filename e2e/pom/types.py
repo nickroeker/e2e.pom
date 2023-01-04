@@ -11,6 +11,6 @@ if TYPE_CHECKING:
 class FindsElements(Protocol):
     """Duck protocol for e2e.pom classes capabale of locating elements."""
 
-    def _find_within(self, locator: "locators.Locator") -> List[WebElement]:
+    def find_within(self, locator: "locators.Locator") -> List:
         """Docs"""
         ...
