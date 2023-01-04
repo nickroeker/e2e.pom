@@ -1,7 +1,7 @@
 Changelog for e2e.pom
 =====================
 
-0.1.8 (unreleased)
+0.1.8 (2023-01-04)
 ------------------
 
 - Remove deprecated _find_within that was causes static analysis issues
