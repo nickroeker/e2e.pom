@@ -5,6 +5,7 @@ Changelog for e2e.pom
 ------------------
 
 - Remove deprecated _find_within that was causes static analysis issues
+- Added wait methods from ElementReferences
 
 
 0.1.7 (2022-09-20)

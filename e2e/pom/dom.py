@@ -8,11 +8,13 @@ from typing import Union
 
 import selenium.common.exceptions as selenium_exceptions
 from selenium.webdriver.remote.webdriver import WebElement
+from waiter import wait
 
 from e2e.common import util
 
 from e2e.pom.base import Parentable
 
+from . import exceptions
 from . import locators
 
 LOGGER = logging.getLogger(__name__)
@@ -58,6 +60,14 @@ class ElementReference(Parentable):
         return self._web_element.text
 
     # State methods
+    def is_in_dom(self) -> bool:
+        """Whether or not this element reference is still in the DOM."""
+        try:
+            self.is_selected()
+        except selenium_exceptions.StaleElementReferenceException:
+            return False
+        return True
+
     def is_selected(self) -> bool:
         return self._web_element.is_selected()
 
@@ -67,7 +77,7 @@ class ElementReference(Parentable):
     def is_visible(self) -> bool:
         """Returns whether or not the element reference is visible.
 
-        If the reference has been removed from the DOM, return False.
+        If the reference has been removed from the DOM, returns False.
         """
         try:
             return self._web_element.is_displayed()
@@ -83,6 +93,36 @@ class ElementReference(Parentable):
 
     def send_keys(self, keys: str) -> None:
         self._web_element.send_keys(keys)
+
+    def wait_for_not_in_dom(self, timeout_sec: float = 5.0) -> None:
+        LOGGER.info("Waiting for no DOM presence of %s", self)
+        for _ in wait(0.1, timeout_sec):
+            if not self.is_in_dom():
+                break
+        else:
+            raise exceptions.TimeoutError(
+                f"Timed out after {timeout_sec}s waiting for no DOM presence of {self}"
+            )
+
+    def wait_for_visible(self, timeout_sec: float = 5.0) -> None:
+        LOGGER.info("Waiting for visibility of %s", self)
+        for _ in wait(0.1, timeout_sec):
+            if self.is_visible():
+                break
+        else:
+            raise exceptions.TimeoutError(
+                f"Timed out after {timeout_sec}s waiting for visibility of {self}"
+            )
+
+    def wait_for_invisible(self, timeout_sec: float = 5.0) -> None:
+        LOGGER.info("Waiting for invisibility of %s", self)
+        for _ in wait(0.1, timeout_sec):
+            if not self.is_visible():
+                break
+        else:
+            raise exceptions.TimeoutError(
+                f"Timed out after {timeout_sec}s waiting for invisibility of {self}"
+            )
 
     def __repr__(self) -> str:
         return "{}({})".format(util.fqualname_of(self), self._web_element.id)
